@@ -1,30 +1,32 @@
-package com.luv2code.hibernate.demo.entity;
-
-import java.util.List;
+package com.luv2code.hibernate.demo.mains;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class QueryStudentDemo {
+import com.luv2code.hibernate.demo.entity.Student;
+
+public class CreateStudentDemo {
 
 	public static void main(String[] args) {
-		SessionFactory factory= new Configuration()
+		//FactorySession factory = new 
+		SessionFactory factory =new Configuration()
 				.configure("hibernate.cfg.xml")
 				.addAnnotatedClass(Student.class)
 				.buildSessionFactory();
+		
 		Session session=factory.getCurrentSession();
 		
-		try{
+		try {
+			System.out.println("Creating new student object ...");
+			Student tempStudent=new Student("Paul","Wall","paul@luv2code.com");
 			session.beginTransaction();
-			List<Student>students = session
-										.createQuery("from Student s where s.id=5")
-										.getResultList();
-			System.out.println(students);
+			session.save(tempStudent);
 			session.getTransaction().commit();
 		}finally {
 			factory.close();
 		}
+		
 	}
 
 }
